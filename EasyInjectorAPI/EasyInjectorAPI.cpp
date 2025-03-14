@@ -4,10 +4,16 @@ EasyInjectorAPI::EasyInjectorAPI(DWORD processID) {
 	processId = processID;
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
 	if (!hProcess) {
-		DWORD error = GetLastError();
 		throw runtime_error("Failed to open process");
-		cout << "Error: " << error;
 	}
+}
+EasyInjectorAPI::EasyInjectorAPI(HANDLE hProcess) {
+	if (!hProcess) {
+		throw runtime_error("Failed to open process");
+	}
+
+	this->hProcess = hProcess;
+	this->processId = GetProcessId(hProcess);
 }
 EasyInjectorAPI::~EasyInjectorAPI() {
 	if (isProcessAvilable()) {

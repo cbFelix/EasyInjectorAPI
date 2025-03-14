@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <tlhelp32.h>
 
 using namespace std;
 
@@ -26,14 +27,13 @@ typedef NTSTATUS(NTAPI* NtCreateThreadExFunc)(
 class EasyInjectorAPI {
 public:
 	EasyInjectorAPI(DWORD processID);
+	EasyInjectorAPI(HANDLE hProcess);
 	~EasyInjectorAPI();
 
 	virtual bool inject(string& dllPath);
 
 	virtual bool injectNt(string& dllPath);
 	virtual bool injectManualMap(string& dllPath);
-
-
 
 	bool checkDllFile(const char* dllPath);
 
@@ -50,6 +50,6 @@ private:
 	}
 
 	LPVOID WriteDllPath(string& dllPath);
-};
+}; 
 
 #endif // !EASYINJECTORAPI_H
